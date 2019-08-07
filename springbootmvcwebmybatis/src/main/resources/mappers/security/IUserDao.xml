@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 用户DAO接口Mapping映射 --> 
+<mapper namespace="com.neusoft.busmis.security.dao.IUserDao">
+  
+  <cache/>
+  <resultMap id="UserResultMap" type="User">
+      <id property="id" column="UserID"/>
+      <result property="password" column="USERPASSWORD"/>
+      <result property="name" column="UserName"/>
+      <result property="age" column="AGE"/>
+      <result property="joinDate" column="JOINDATE"/>
+      <result property="status" column="STATUS"/>
+      
+  </resultMap>
+  
+  <insert id="create"  parameterType="User" flushCache="true">
+   insert into userinfo (USERID,USERPASSWORD,USERNAME,AGE,JOINDATE)
+   values (#{id},#{password},#{name},#{age},#{joinDate})
+  
+  </insert>
+  <insert id="createWithPhoto"  parameterType="User" flushCache="true">
+   insert into userinfo (USERID,USERPASSWORD,USERNAME,AGE,JOINDATE,PHOTO,PHOTOFILENAME,PHOTOContentType)
+   values (#{id},#{password},#{name},#{age},#{joinDate},#{photo},#{photoFileName},#{photoContentType})
+  
+  </insert>
+  
+  <update id="update" flushCache="true">
+   update userinfo set UserPassword=#{password},UserName=#{name},age=#{age},JoinDate=#{joinDate} 
+   where USERID=#{id}
+  </update>
+  
+  <delete id="delete" flushCache="true">
+   delete from UserInfo where  USERID=#{id}
+  </delete>
+  
+  <select id="selectListByAll" resultMap="UserResultMap">
+   select USERID,USERPASSWORD,USERNAME,AGE,JOINDATE,PHOTOFILENAME,PHOTOContentType from userinfo
+  
+  </select>
+  
+  <select id="selectListByAllWithPage" resultMap="UserResultMap">
+   select USERID,USERPASSWORD,USERNAME,AGE,JOINDATE,PHOTOFILENAME,PHOTOContentType from userinfo
+   
+  </select>
+  
+  <select id="selectById" resultMap="UserResultMap" >
+  select * from userinfo  where USERID=#{id}  
+  </select>
+  
+  <insert id="addRole"  >
+   insert into USERROLE values (#{id},#{roleNo})  
+  </insert>
+  
+  <!-- 一次增加多个角色 -->
+  <insert id="addRoles">
+    insert into UserRole  values 
+    <foreach  item="roleNo" collection="roleNoList"   separator="," >
+          (#{id},#{roleNo})
+    </foreach>
+   </insert>
+   
+   <!-- 删除指定用户的所有角色 -->
+   <delete id="deleteRoles" >
+   delete from userrole where USERID=#{id}
+   </delete>
+  
+	<!-- 取得指定用户的模块列表 -->
+	<select id="selectModuleListByUser" resultMap="com.neusoft.busmis.security.dao.IModuleDao.ModuleResultMapWithFunctionsByNestedResultMap" >
+	 select a.*,b.* from systemmodule a inner join SYSTEMFUNCTION b on a.MNO=b.MNO
+	 where a.MNO in (select MNO from RoleModule where RNO in (select RNO from UserRole where USERID=#{userid}))
+	
+	</select>
+	
+	<select id="selectListByCondition" resultMap="UserResultMap">
+	  select *
+	  from userinfo
+	  <where>
+	  <if test="roleNo!=0">
+	    and  USERID in (select USERID from userrole where RNO=#{roleNo})
+	  </if>
+	  <if test="key!=null and key!=''">
+	    and username like #{key}
+	  </if>
+	  <if test="min!=0">
+	     and AGE &gt;=#{min}
+	  </if> 
+	  <if test="max!=0">
+	  and AGE &lt;=#{max}
+	  </if>
+	  <if test="start!=null">
+	  and JOINDATE &gt;=#{start}
+	  </if> 
+	  <if test="end!=null">
+	   and JOINDATE &lt;=#{end}
+	  </if>     
+	 </where>        
+	        
+	        
+	       
+	
+	
+	</select>
+  
+</mapper>

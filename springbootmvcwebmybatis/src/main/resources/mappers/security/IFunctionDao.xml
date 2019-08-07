@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 系统功能DAO接口Mapping映射 -->
+<mapper namespace="com.neusoft.busmis.security.dao.IFunctionDao">
+  <cache/>
+  <!-- 没有关联模块的结果映射 -->
+  <resultMap id="FunctionResultMap" type="Function" >
+  	<id property="no" column="FUNNO" />
+  	<result property="name" column="FUNNAME" />
+  	<result property="url" column="FUNURL" />
+  </resultMap>
+  <!-- 使用内嵌式select的关联模块的结果映射 -->
+  <resultMap id="FunctionResultMapWithRelationWithSelect" type="Function" extends="FunctionResultMap" >
+  	<association property="module" column="MNO" select="com.neusoft.busmis.security.dao.IModuleDao.selectByNo" />
+  </resultMap>
+  <!-- 使用内嵌式ResultMap的关联模块的结果映射 -->
+  <resultMap id="FunctionResultMapWithRelationNestedResultMap" type="Function" extends="FunctionResultMap" >
+  	<association property="module"  resultMap="com.neusoft.busmis.security.dao.IModuleDao.ModuleResultMap" />
+  </resultMap>
+  
+  <insert id="create"  keyProperty="no"   keyColumn="FUNNO" useGeneratedKeys="true" flushCache="true" >
+   insert into  SYSTEMFUNCTION (MNO,FUNNAME,FUNURL) values (#{module.no},#{name},#{url})
+  </insert>
+  
+  <update id="update" flushCache="true">
+   update SYSTEMFUNCTION set MNO=#{module.no} FUNNAME=#{name},FUNURL=#{url} where FUNNO=#{no}
+  </update>
+  
+  <delete id="delete" flushCache="true">
+   delete from SYSTEMFUNCTION where FUNNO=#{no}
+  </delete>
+  
+  <select id="selectListByAll" resultMap="FunctionResultMap">
+   select * from SYSTEMFUNCTION
+  
+  </select>
+  
+  <select id="selectListByAllWithNestedSelect" resultMap="FunctionResultMapWithRelationWithSelect">
+   select * from SYSTEMFUNCTION
+  
+  </select>
+  
+  <select id="selectListByAllWithNestedResultMap" resultMap="FunctionResultMapWithRelationNestedResultMap">
+   select a.*,b.* from SYSTEMFUNCTION a inner join systemmodule b on a.MNO=B.MNO
+  
+  </select>
+  <!-- 根据模块编号取得此模块的功能列表 -->
+  <select id="selectListByModule" resultMap="FunctionResultMap">
+   select * from SYSTEMFUNCTION where MNO=#{moduleNo}
+  </select>
+  
+  
+  <select id="selectByNo"  resultMap="FunctionResultMapWithRelationWithSelect">
+  select * from SYSTEMFUNCTION   where FUNNO=#{no}
+  
+  </select>
+  
+  
+  
+</mapper>

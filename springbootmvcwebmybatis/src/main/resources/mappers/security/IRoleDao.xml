@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 角色DAO接口Mapping映射 -->   
+<mapper namespace="com.neusoft.busmis.security.dao.IRoleDao">
+  <!-- 启用此映射的全局缓存 -->
+  <cache/>
+  <!-- 无关联属性的结果映射 -->
+  <resultMap id="RoleResultMap" type="Role" >
+  	<id property="no" column="RNO" />
+  	<result property="name" column="RNAME" />
+  </resultMap>
+  
+  <!-- 使用内嵌式Select实现方式的关联属性的结果映射 -->
+  <resultMap id="RoleResultMapWithCollectionBySelect" type="Role" extends="RoleResultMap">
+  	
+  	
+  </resultMap>
+  <!-- 使用内嵌式ResultMap实现方式的关联属性的结果映射 -->
+  
+  
+  <insert id="create"  keyProperty="no"   keyColumn="RNO" useGeneratedKeys="true" flushCache="true" >
+   insert into Roles (RNAME) values (#{name})
+  
+  </insert>
+  
+  <update id="update" flushCache="true">
+   update roles set RNAME=#{name} where RNO=#{no}
+  </update>
+  
+  <delete id="delete" flushCache="true">
+   delete from Roles where RNO=#{no}
+  </delete>
+  
+  <select id="selectListByAll" resultMap="RoleResultMap">
+   select * from Roles
+  
+  </select>
+  
+  <select id="selectListByModule" resultMap="RoleResultMap">
+   select * from Roles where RNO in (select RNO from RoleModule where MNO=#{moduleNo})
+  
+  </select>
+  
+  
+  <select id="selectByNo"  resultMap="RoleResultMap">
+  select * from Roles  where RNO=#{no}  
+  </select>
+  <!-- 取得职位的个数，使用IFNULL函数判断count函数结果是否为null, 为null返回0 -->
+  <select id="selectCountByAll" resultType="int">
+   select IFNULL(count(RNO), 0)  from Roles
+  </select>
+   
+  
+</mapper>

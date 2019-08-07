@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 系统模块ModuleDAO接口Mapping映射 -->  
+<mapper namespace="com.neusoft.busmis.security.dao.IModuleDao">
+  
+  <cache/>
+  <!-- 没有关联属性的结果映射 -->
+  <resultMap id="ModuleResultMap" type="Module" >
+  	<id property="no" column="MNO" />
+  	<result property="name" column="MNAME" />
+  </resultMap>
+  
+  <!-- 使用内嵌式Select实现方式的关联属性的结果映射 -->
+  <resultMap id="ModuleResultMapWithFunctionsByNestedSelect" type="Module" extends="ModuleResultMap" >
+  	<collection property="functions" column="MNO" select="com.neusoft.busmis.security.dao.IFunctionDao.selectListByModule"></collection>
+  </resultMap>
+  
+  <!-- 使用内嵌式ResultMap实现方式的关联属性的结果映射 -->
+   <resultMap id="ModuleResultMapWithFunctionsByNestedResultMap" type="Module" extends="ModuleResultMap" >
+  	<collection property="functions" resultMap="com.neusoft.busmis.security.dao.IFunctionDao.FunctionResultMap" ></collection>
+  </resultMap>
+  
+  <!-- 使用内嵌式Select实现方式的关联属性Roles的结果映射 -->
+  <resultMap id="ModuleResultMapWithRolesByNestedSelect" type="Module" extends="ModuleResultMap" >
+  	<collection property="roles" column="MNO" select="com.neusoft.busmis.security.dao.IRoleDao.selectListByModule"></collection>
+  </resultMap>
+  
+  <!-- 使用内嵌式ResultMap实现方式的关联属性的结果映射 -->
+   <resultMap id="ModuleResultMapWithRolesByNestedResultMap" type="Module" extends="ModuleResultMap" >
+  	<collection property="roles" resultMap="com.neusoft.busmis.security.dao.IRoleDao.RoleResultMap"></collection>
+  </resultMap>
+  
+  
+  <insert id="create"  keyProperty="no"   keyColumn="RNO" useGeneratedKeys="true" flushCache="true" >
+   insert into systemmodule (MNAME) values (#{name})
+  
+  </insert>
+  
+  <update id="update" flushCache="true">
+   update systemmodule set MNAME=#{name} where MNO=#{no}
+  </update>
+  
+  <delete id="delete" flushCache="true">
+   delete from systemmodule where MNO=#{no}
+  </delete>
+  <!-- 查询所有模块列表，不取关联的属性 -->
+  <select id="selectListByAll" resultMap="ModuleResultMap">
+   select * from systemmodule
+  
+  </select>
+  
+  <!-- 查询所有模块列表，取关联的功能列表属性，使用内嵌式Select -->
+  <select id="selectListByAllWithFunctionsByNestedSelect" resultMap="ModuleResultMapWithFunctionsByNestedSelect">
+   select * from systemmodule
+  
+  </select>
+  <!-- 查询所有模块列表，取关联的功能列表属性，使用内嵌式ResultMapSelect -->
+  <select id="selectListByAllWithFunctionsByNestedResultMap" resultMap="ModuleResultMapWithFunctionsByNestedResultMap">
+   select a.*,b.* from systemmodule a inner join SYSTEMFUNCTION b on a.MNO=b.MNO
+  
+  </select>
+  
+  <!-- 查询所有模块列表，取关联的角色功能列表属性，使用内嵌式Select -->
+  <select id="selectListByAllWithRolesByNestedSelect" resultMap="ModuleResultMapWithRolesByNestedSelect">
+   select * from systemmodule
+  
+  </select>
+  <!-- 查询所有模块列表，取关联的角色功能列表属性，使用内嵌式ResultMapSelect -->
+  <select id="selectListByAllWithRolesByNestedResultMap" resultMap="ModuleResultMapWithRolesByNestedResultMap">
+   select a.*, c.* from systemmodule a  left outer join   RoleModule b on a.MNO=b.MNO
+   left outer join Roles c on b.RNO=c.RNO
+  
+  </select>
+  
+  
+  
+  
+  <select id="selectByNo"  resultMap="ModuleResultMap">
+  select * from systemmodule  where MNO=#{no}
+  
+  </select>
+   
+  
+</mapper>
