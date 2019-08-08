@@ -17,6 +17,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,8 @@ import com.neusoft.busmis.security.dao.IUserDao;
 import com.neusoft.busmis.security.model.ModuleModel;
 import com.neusoft.busmis.security.model.UserModel;
 import com.neusoft.busmis.security.service.IUserService;
+
+
 //用户的业务实现类
 @Service("userService04")
 @Transactional(rollbackFor=Exception.class)
@@ -36,7 +39,8 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private IUserDao userDao=null;
 	
-	
+	@Value("${server.port}")
+	private  String port=null;
 	
 	
 	//默认的构造方法
@@ -120,7 +124,7 @@ public class UserServiceImpl implements IUserService {
 		
 		//调用DAO接口的方法
 		List<UserModel> list=userDao.selectListByAll();
-		//提交事务
+		System.out.println("服务启动端口："+port);
 		
 		
 		return list;
