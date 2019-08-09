@@ -3,53 +3,53 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 系统模块ModuleDAO接口Mapping映射 -->  
-<mapper namespace="com.neusoft.oa.hr.mapper.IBehaveMapper">
+<mapper namespace="com.neusoft.oa.hr.mapper.IRoleMapper">
   
   <cache/>
   <!-- 没有关联属性的结果映射 -->
-  <resultMap id="BehaveResultMap" type="Behave" >
-  	<id property="no" column="BNO" />
-  	<result property="name" column="BNAME" />
+  <resultMap id="RoleResultMap" type="Role" >
+  	<id property="no" column="RNO" />
+  	<result property="name" column="RNAME" />
   </resultMap>
   
   <!-- 使用内嵌式ResultMap实现方式的关联属性的结果映射 -->
-  <resultMap id="BehaveWithEmployees" type="Behave" extends="BehaveResultMap" >
+  <resultMap id="RoleWithEmployees" type="Role" extends="RoleResultMap" >
   	<collection property="employees" resultMap="com.neusoft.oa.hr.mapper.IEmploueeMapper.EmployeeResultMap" />
   </resultMap>
   
   
-  <insert id="insert"  keyProperty="no"   keyColumn="BNO" useGeneratedKeys="true" flushCache="true" >
-   insert into oa_behave (BNAME) values (#{name})
+  <insert id="insert"  keyProperty="no"   keyColumn="RNO" useGeneratedKeys="true" flushCache="true" >
+   insert into oa_role (RNAME) values (#{name})
   
   </insert>
   
   <update id="update" flushCache="true">
-   update oa_behave set MNAME=#{name} where MNO=#{no}
+   update oa_role set RNAME=#{name} where RNO=#{no}
   </update>
   
   <delete id="delete" flushCache="true">
-   delete from oa_behave where MNO=#{no}
+   delete from oa_role where RNO=#{no}
   </delete>
   <!-- 查询所有爱好列表，不取关联的属性 -->
-  <select id="selectListByAll" resultMap="BehaveResultMap">
-   select * from oa_behave
+  <select id="selectListByAll" resultMap="RoleResultMap">
+   select * from oa_Role
   </select>
   
   <!-- 取得所有爱好列表,分页模式 -->
-  <select id="selectListByAllWithPage" resultMap="BehaveResultMap">
-   select * from oa_behave
+  <select id="selectListByAllWithPage" resultMap="RoleResultMap">
+   select * from oa_Role limit #{start},#{rows}
   
   </select>
   
-  <select id="selectByNo"  resultMap="BehaveWithEmployees">
-  select a.*,c.* from oa_behave a left outer join oa_employeebehave b on a.BNO=B.BNO
+  <select id="selectByNo"  resultMap="RoleWithEmployees">
+  select a.*,c.* from oa_Role a left outer join oa_employeeRole b on a.RNO=B.RNO
           left outer join oa_employee c on b.EMPID=c.EMPID
-    where a.BNO=#{no}
+    where a.RNO=#{no}
   
   </select>
   
   <select id="selectCountByAll" resultType="int">
-  select IFNULL(count(BNO), 0) from oa_behave
+  select IFNULL(count(RNO), 0) from oa_role
   </select>
    
   

@@ -8,12 +8,12 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 /*
- * 爱好的Model类
+ * 员工角色的Model类
  * @Author: 吕海东
  */
-@Alias("Behave")
+@Alias("Role")
 @Data
-public class BehaveModel implements Serializable{
+public class RoleModel implements Serializable{
 	private int no=0;
 	private String name=null;
 	//爱好关联的员工列表

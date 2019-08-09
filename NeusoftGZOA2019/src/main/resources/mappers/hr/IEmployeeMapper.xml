@@ -26,13 +26,13 @@
   	<association property="department" resultMap="com.neusoft.oa.hr.mapper.IDepartmentMapper.DepartmentResultMap"></association>
   </resultMap>
   <!-- 关联的爱好的ResultMap -->
-  <resultMap  id="EmployeeWithBehaveResultMap" type="Employee" extends="EmployeeResultMap">
-  	<collection property="behaves" resultMap="com.neusoft.oa.hr.mapper.IBehaveMapper.BehaveResultMap"></collection>
+  <resultMap  id="EmployeeWithRoleResultMap" type="Employee" extends="EmployeeResultMap">
+  	<collection property="roles" resultMap="com.neusoft.oa.hr.mapper.IRoleMapper.RoleResultMap"></collection>
   </resultMap>
   <!-- 关联部门和爱好 -->
-  <resultMap  id="EmployeeWithDepartmentBehavesResultMap" type="Employee" extends="EmployeeResultMap">
+  <resultMap  id="EmployeeWithDepartmentRolesResultMap" type="Employee" extends="EmployeeResultMap">
   	<association property="department" resultMap="com.neusoft.oa.hr.mapper.IDepartmentMapper.DepartmentResultMap"></association>
-  	<collection property="behaves" resultMap="com.neusoft.oa.hr.mapper.IBehaveMapper.BehaveResultMap"></collection>
+  	<collection property="roles" resultMap="com.neusoft.oa.hr.mapper.IRoleMapper.RoleResultMap"></collection>
   </resultMap>
   <!-- 无图片增加 -->
   <insert id="insert"  parameterType="Employee" flushCache="true">
@@ -67,36 +67,36 @@
    delete from oa_employee where  EMPID=#{id}
   </delete>
   
-  <select id="selectByIdWithDepartmentAndBehaves" resultMap="EmployeeWithDepartmentBehavesResultMap" >
+  <select id="selectByIdWithDepartmentAndRoles" resultMap="EmployeeWithDepartmentRolesResultMap" >
   select a.*,d.* from oa_employee a inner join oa_department b on a.DEPTNO=b.DEPTNO
-  left outer join oa_employeebehave c on a.EMPID=c.EMPID 
-  left outer join oa_behave d on c.BNO=d.BNO 
+  left outer join oa_employeeRole c on a.EMPID=c.EMPID 
+  left outer join oa_Role d on c.RNO=d.BNO 
    where a.EMPID=#{id}  
   </select>
   
    <!-- 取得所有员工列表，不取关联的部门对象，不取关联的爱好集合,不分页模式 -->
-  <select id="selectListByAllWithoutDepartmentAndBehaves" resultMap="EmployeeResultMap">
+  <select id="selectListByAllWithoutDepartmentAndRoles" resultMap="EmployeeResultMap">
    select EMPUSERID,EMPUSERPASSWORD,EMPUSERNAME,EMPSEX,AGE,SALARY,Birthday,JOINDATE,Mail,PHOTOFILENAME,PHOTOCONTENTTYPE from oa_employee
   
   </select>
   <!-- 取得所有员工列表，不取关联的部门对象，不取关联的爱好集合,分页模式 -->
-  <select id="selectListByAllWithoutDepartmentAndBehavesWithPage" resultMap="EmployeeResultMap">
+  <select id="selectListByAllWithoutDepartmentAndRolesWithPage" resultMap="EmployeeResultMap">
    select EMPUSERID,EMPUSERPASSWORD,EMPUSERNAME,EMPSEX,AGE,SALARY,Birthday,JOINDATE,Mail,PHOTOFILENAME,PHOTOCONTENTTYPE from oa_employee
    limit #{start},#{rows}
   </select>
   <!-- 取得所有员工列表，同时取关联的部门对象，不取关联的爱好集合 -->
-  <select id="selectListByAllWithDepartmentWithoutBehaves" resultMap="EmployeeWithDepartmentResultMap">
+  <select id="selectListByAllWithDepartmentWithoutRoles" resultMap="EmployeeWithDepartmentResultMap">
   select a.*,b.* from oa_employee a inner join oa_department b on a.DEPTNO=b.DEPTNO
   </select>
   <!-- 根据综合检索条件取得员工列表，取得关联的部门，不取关联的爱好列表，分页模式 -->
-  <select id="selectListByConditionWithDepartmentNoAndBehavesWithPage" resultMap="EmployeeWithDepartmentResultMap">
+  <select id="selectListByConditionWithDepartmentNoAndRolesWithPage" resultMap="EmployeeWithDepartmentResultMap">
   select a.*,b.* from oa_employee a inner join oa_department b on a.DEPTNO=b.DEPTNO
   <where>
      <if test="departmentNo!=0">
       and a.DEPTNO=#{departmentNo}
      </if>
-     <if test="behaveNo!=0">
-     and a.EMPID in (select EMPID from oa_employeebehave where BNO=#{behaveNo})
+     <if test="RoleNo!=0">
+     and a.EMPID in (select EMPID from oa_employeeRole where RNO=#{RoleNo})
      </if>
      <if test="sex!=null and sex!=''">
      and a.EMPSEX=#{sex}
@@ -118,8 +118,8 @@
      <if test="departmentNo!=0">
       and a.DEPTNO=#{departmentNo}
      </if>
-     <if test="behaveNo!=0">
-     and a.EMPID in (select EMPID from oa_employeebehave where BNO=#{behaveNo})
+     <if test="RoleNo!=0">
+     and a.EMPID in (select EMPID from oa_employeeRole where RNO=#{roleNo})
      </if>
      <if test="sex!=null and sex!=''">
      and a.EMPSEX=#{sex}
@@ -136,16 +136,16 @@
   
 
   <!-- 为员工一次增加多个角色 -->
-  <insert id="addBehaves">
-    insert into oa_employeebehave (EMPID,BNO) values 
-    <foreach  item="behaveNo" collection="behaves"   separator="," >
-          (#{id},#{behaveNo)
+  <insert id="addRoles">
+    insert into oa_employeeRole (EMPID,RNO) values 
+    <foreach  item="RoleNo" collection="Roles"   separator="," >
+          (#{id},#{RoleNo)
     </foreach>
    </insert>
    
    <!-- 删除指定员工的所有爱好 -->
-   <delete id="deleteBehaves" >
-   delete from oa_employeebehave where EMPID=#{id}
+   <delete id="deleteRoles" >
+   delete from oa_employeeRole where EMPID=#{id}
    </delete>
   
   

@@ -35,8 +35,8 @@ public class EmployeeModel implements Serializable {
 	private String mail=null;
 	//关联的部门
 	private DepartmentModel department=null;
-	//员工的爱好列表
-	private List<BehaveModel> behaves=null;
+	//员工的角色列表
+	private List<RoleModel> roles=null;
 	
 
 }
