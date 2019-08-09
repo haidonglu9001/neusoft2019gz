@@ -62,4 +62,17 @@ public class RoleServiceImpl implements IRoleService {
 		return roleMapper.selectCountByAll();
 	}
 
+	@Override
+	public int getPagaCountByAll(int rows) throws Exception {
+		int pageCount=0;
+		int count=this.getCountByAll();
+		if(count%rows==0) {
+			pageCount=count/rows;
+		}
+		else {
+			pageCount=count/rows+1;
+		}
+		return pageCount;
+	}
+
 }

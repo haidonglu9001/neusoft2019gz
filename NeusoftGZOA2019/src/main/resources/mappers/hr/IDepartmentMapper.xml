@@ -36,7 +36,7 @@
   </select>
   
   <select id="selectListByAllWithPage" resultMap="DepartmentResultMap">
-   select * from oa_department limits #{start},#{rows}
+   select * from oa_department limit #{start},#{rows}
   </select>
   
    

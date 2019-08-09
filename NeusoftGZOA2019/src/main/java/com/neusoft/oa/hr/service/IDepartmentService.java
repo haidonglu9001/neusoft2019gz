@@ -26,5 +26,8 @@ public interface IDepartmentService {
 	public List<DepartmentModel> getListByAllWithPage(int rows,int page) throws Exception;
 	//取得部门的个数
 	public int getCountByAll() throws Exception;
+	//取得部门页数
+	public int getPagaCountByAll(int rows) throws Exception;
+	
 
 }

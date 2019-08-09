@@ -28,19 +28,19 @@ public class RoleController {
 	private IRoleService roleService=null;
 	
 	//增加角色
-	@PostMapping("add")
+	@PostMapping("/add")
 	public ResultMessage<RoleModel> add(RoleModel role) throws Exception {
 		roleService.add(role);
 		return new ResultMessage<RoleModel>("OK","增加角色成功");
 	}
 	//修改角色
-	@PostMapping("modify")
+	@PostMapping("/modify")
 	public ResultMessage<RoleModel> modify(RoleModel role) throws Exception {
 		roleService.modify(role);
 		return new ResultMessage<RoleModel>("OK","修改角色成功");
 	}
 	//删除角色
-	@PostMapping("delete")
+	@PostMapping("/delete")
 	public ResultMessage<RoleModel> delete(RoleModel role) throws Exception {
 		roleService.modify(role);
 		return new ResultMessage<RoleModel>("OK","删除角色成功");
@@ -49,8 +49,16 @@ public class RoleController {
 	
 	//取得所有角色列表，有分页
 	@GetMapping(value="/list/all/page")
-	public List<RoleModel> getListByAllWitPage(@RequestParam(required = false,defaultValue ="10") int rows,@RequestParam(required = false,defaultValue = "1") int page) throws Exception{
-		return roleService.getListByAllWithPage(rows, page);
+	public ResultMessage<RoleModel> getListByAllWitPage(@RequestParam(required = false,defaultValue ="10") int rows,@RequestParam(required = false,defaultValue = "1") int page) throws Exception{
+		
+		ResultMessage<RoleModel> result=new ResultMessage<RoleModel>("OK","取得部门列表分页模式成功");
+		result.setCount(roleService.getCountByAll());
+		result.setPageCount(roleService.getPagaCountByAll(rows));
+		result.setList(roleService.getListByAllWithPage(rows, page));
+		result.setPage(page);
+		result.setRows(rows);
+		
+		return result;
 	}
 	
 	//取得所有角色列表，无分页

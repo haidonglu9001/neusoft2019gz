@@ -4,16 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neusoft.oa.hr.model.DepartmentModel;
 import com.neusoft.oa.hr.service.IDepartmentService;
+import com.neusoft.oa.message.ResultMessage;
 
 /*
  * 模块：HR 人力资源
- * 部门控制层Controller
+ * Controller层：部门控制器Controller类
  * @Author: 吕海东
  */
 @RestController
@@ -23,17 +25,39 @@ public class DepartmentController {
 	private IDepartmentService departmentService=null;
 	
 	//增加部门
-	
+	@PostMapping("/add")
+	public ResultMessage<DepartmentModel> add(DepartmentModel Department) throws Exception {
+		departmentService.add(Department);
+		return new ResultMessage<DepartmentModel>("OK","增加部门成功");
+	}
 	//修改部门
-	
+	@PostMapping("/modify")
+	public ResultMessage<DepartmentModel> modify(DepartmentModel Department) throws Exception {
+		departmentService.modify(Department);
+		return new ResultMessage<DepartmentModel>("OK","修改部门成功");
+	}
 	//删除部门
-	
+	@PostMapping("/delete")
+	public ResultMessage<DepartmentModel> delete(DepartmentModel Department) throws Exception {
+		departmentService.modify(Department);
+		return new ResultMessage<DepartmentModel>("OK","删除部门成功");
+	}
 	//取得指定的部门
-	
+	@GetMapping("/get")
+	public DepartmentModel getByNo(int no) throws Exception{
+		return departmentService.getByNo(no);
+	}
 	//取得所有部门列表，有分页
 	@GetMapping(value="/list/all/page")
-	public List<DepartmentModel> getListByAllWitPage(@RequestParam(required = false,defaultValue ="10") int rows,@RequestParam(required = false,defaultValue = "1") int page) throws Exception{
-		return departmentService.getListByAllWithPage(rows, page);
+	public ResultMessage<DepartmentModel> getListByAllWitPage(@RequestParam(required = false,defaultValue ="10") int rows,@RequestParam(required = false,defaultValue = "1") int page) throws Exception{
+		ResultMessage<DepartmentModel> result=new ResultMessage<DepartmentModel>("OK","取得部门列表分页模式成功");
+		result.setCount(departmentService.getCountByAll());
+		result.setPageCount(departmentService.getPagaCountByAll(rows));
+		result.setList(departmentService.getListByAllWithPage(rows, page));
+		result.setPage(page);
+		result.setRows(rows);
+		
+		return result;
 	}
 	
 	//取得所有部门列表，无分页

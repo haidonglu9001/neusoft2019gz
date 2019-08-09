@@ -26,4 +26,6 @@ public interface IRoleService {
 	public List<RoleModel> getListByAllWithPage(int rows,int page) throws Exception;
 	//取得角色的个数
 	public int getCountByAll() throws Exception;
+	//取得角色页数
+	public int getPagaCountByAll(int rows) throws Exception;
 }

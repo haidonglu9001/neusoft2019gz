@@ -39,27 +39,45 @@ public class DepartmentServiceImpl implements IDepartmentService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public DepartmentModel getByNo(int no) throws Exception {
 		
 		return departmentMapper.selectByNo(no);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<DepartmentModel> getListByAll() throws Exception {
 		
 		return departmentMapper.selectListByAll();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<DepartmentModel> getListByAllWithPage(int rows, int page) throws Exception {
 		
 		return departmentMapper.selectListByAllWithPage(rows*(page-1), rows);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public int getCountByAll() throws Exception {
 		
 		return departmentMapper.selectCountByAll();
+	}
+	//取得部门页数
+	@Override
+	@Transactional(readOnly = true)
+	public int getPagaCountByAll(int rows) throws Exception {
+		int pageCount=0;
+		int count=this.getCountByAll();
+		if(count%rows==0) {
+			pageCount=count/rows;
+		}
+		else {
+			pageCount=count/rows+1;
+		}
+		return pageCount;
 	}
 
 }
