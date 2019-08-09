@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 系统模块ModuleDAO接口Mapping映射 -->  
+<mapper namespace="com.neusoft.oa.hr.mapper.IBehaveMapper">
+  
+  <cache/>
+  <!-- 没有关联属性的结果映射 -->
+  <resultMap id="BehaveResultMap" type="Behave" >
+  	<id property="no" column="BNO" />
+  	<result property="name" column="BNAME" />
+  </resultMap>
+  
+  <!-- 使用内嵌式ResultMap实现方式的关联属性的结果映射 -->
+  <resultMap id="BehaveWithEmployees" type="Behave" extends="BehaveResultMap" >
+  	<collection property="employees" resultMap="com.neusoft.oa.hr.mapper.IEmploueeMapper.EmployeeResultMap" />
+  </resultMap>
+  
+  
+  <insert id="insert"  keyProperty="no"   keyColumn="BNO" useGeneratedKeys="true" flushCache="true" >
+   insert into oa_behave (BNAME) values (#{name})
+  
+  </insert>
+  
+  <update id="update" flushCache="true">
+   update oa_behave set MNAME=#{name} where MNO=#{no}
+  </update>
+  
+  <delete id="delete" flushCache="true">
+   delete from oa_behave where MNO=#{no}
+  </delete>
+  <!-- 查询所有爱好列表，不取关联的属性 -->
+  <select id="selectListByAll" resultMap="BehaveResultMap">
+   select * from oa_behave
+  </select>
+  
+  <!-- 取得所有爱好列表,分页模式 -->
+  <select id="selectListByAllWithPage" resultMap="BehaveResultMap">
+   select * from oa_behave
+  
+  </select>
+  
+  <select id="selectByNo"  resultMap="BehaveWithEmployees">
+  select a.*,c.* from oa_behave a left outer join oa_employeebehave b on a.BNO=B.BNO
+          left outer join oa_employee c on b.EMPID=c.EMPID
+    where a.BNO=#{no}
+  
+  </select>
+  
+  <select id="selectCountByAll" resultType="int">
+  select IFNULL(count(BNO), 0) from oa_behave
+  </select>
+   
+  
+</mapper>

@@ -1,0 +1,61 @@
+
+<!-- Main row -->
+<div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <div class="row">
+             <div class="col-md-6"> <h3 class="box-title">增加员工</h3></div>
+             
+          </div>
+         
+        </div>
+        <!-- /.box-header -->
+      <div class="box-body">
+        <!-- 增加员工表单 -->
+       	 <!-- form start -->
+            <form role="form" action="register.do" method="post">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">账号</label>
+                  <input type="text" class="form-control" name="id"  placeholder="账号">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">密码</label>
+                  <input type="password" class="form-control" name="password"  placeholder="密码">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">姓名</label>
+                  <input type="text" class="form-control" name="name"  placeholder="姓名">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">职位</label>
+                  <c:forEach var="rm" items="${roleList}">
+                	  <input class="form-check-input" type="checkbox" name="roles" id="inlineRadio1" value="${rm.no}">
+					  <label class="form-check-label" for="inlineRadio1">${rm.name}</label>
+				  </c:forEach>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">年龄</label>
+                  <input type="number" class="form-control" name="age" placeholder="年龄">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">入职日期</label>
+                  <input type="date" class="form-control" name="joinDate" placeholder="入职日期">
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">提交</button>
+              </div>
+            </form>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+     <a href="toregister.do" class="btn btn-info">注册用户</a>
+  </div>
+  <!-- /.col -->
+</div>
+<!-- /.row -->

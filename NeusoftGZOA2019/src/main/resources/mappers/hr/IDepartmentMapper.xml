@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 角色DAO接口Mapping映射 -->   
+<mapper namespace="com.neusoft.oa.hr.mapper.IDepartmentMapper">
+  <!-- 启用此映射的全局缓存 -->
+  <cache/>
+  <!-- 无关联属性的结果映射 -->
+  <resultMap id="DepartmentResultMap" type="Department" >
+  	<id property="no" column="DEPTNO" />
+  	<result property="code" column="DEPTCODE" />
+  	<result property="name" column="DEPTNAME" />
+  </resultMap>
+  
+  <!-- 使用内嵌式ResultMap实现方式的关联属性的结果映射 -->
+  <resultMap id="DepartmentWithEmployeesResultMap" type="Department" extends="DepartmentResultMap">
+  	 <collection property="employees" resultMap="com.neusoft.oa.hr.mapper.IEmploueeMapper.EmployeeResultMap"></collection>
+  </resultMap>
+  
+  <insert id="insert"  keyProperty="no"   keyColumn="DEPTNO" useGeneratedKeys="true" flushCache="true" >
+   insert into oa_department (DEPTCODE,DEPTNAME) values (#{code},#{name})
+  
+  </insert>
+  
+  <update id="update" flushCache="true">
+   update oa_department set DEPTCODE=#{code},DEPTNAME=#{name} where DEPTNO=#{no}
+  </update>
+  
+  <delete id="delete" flushCache="true">
+   delete from oa_department where DEPTNO=#{no}
+  </delete>
+  
+  <select id="selectListByAll" resultMap="DepartmentResultMap">
+   select * from oa_department
+  </select>
+  
+  <select id="selectListByAllWithPage" resultMap="DepartmentResultMap">
+   select * from oa_department limits #{start},#{rows}
+  </select>
+  
+   
+  <select id="selectByNo"  resultMap="DepartmentResultMap">
+  select * from oa_department  where DEPTNO=#{no}  
+  </select>
+  <!-- 取得职位的个数，使用IFNULL函数判断count函数结果是否为null, 为null返回0 -->
+  <select id="selectCountByAll" resultType="int">
+   select IFNULL(count(DEPTNO), 0) from oa_department
+  </select>
+   
+  
+</mapper>
