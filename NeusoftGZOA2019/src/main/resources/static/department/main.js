@@ -57,6 +57,19 @@ $(function(){
 			  
 			
 		});
+		//点击增加链接处理
+		$("a#DepartmentAddLink").off().on("click",function(event){
+			BootstrapDialog.alert('I want banana!');
+			
+			$("div#DepartmentDialogArea").load("department/add.html",function(){
+				$( "div#DepartmentDialogArea" ).dialog({
+					title:"增加部门",
+					width:600
+				});
+				
+			});
+			
+		});
 		//初始调用取得分页列表数据
 		getListInfo();
 	});
