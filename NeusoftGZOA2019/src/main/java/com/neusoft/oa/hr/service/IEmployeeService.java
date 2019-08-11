@@ -5,7 +5,8 @@ import java.util.List;
 import com.neusoft.oa.hr.model.EmployeeModel;
 
 /*
- * 员工部门业务层接口
+ * 模块：人力资源HR
+ * 员工部门业务接口
  * @Author: 吕海东
  */
 public interface IEmployeeService {
@@ -22,20 +23,20 @@ public interface IEmployeeService {
 	public void modifyForDeletePhoto(EmployeeModel employee) throws Exception;
 	//删除
 	public void delete(EmployeeModel employee) throws Exception;
-	//取得员工单个对象，同时取得关联的部门对象和关联的爱好集合
-	public EmployeeModel getByIdWithDepartmentAndBehaves(String id) throws Exception;
-	//取得所有员工列表，不取关联的部门对象，不取关联的爱好集合,不分页
-	public List<EmployeeModel> getListByAllWithoutDepartmentAndBehaves() throws Exception;
-	//取得所有员工列表，不取关联的部门对象，不取关联的爱好集合,分页模式
-	public List<EmployeeModel> getListByAllWithoutDepartmentAndBehavesWithPage(int rows,int page) throws Exception;
-	//取得所有员工列表，同时取关联的部门对象，不取关联的爱好集合
-	public List<EmployeeModel> getListByAllWithDepartmentWithoutBehaves() throws Exception;
-	//根据综合检索条件取得员工列表，取得关联的部门，不取关联的爱好列表，分页模式
-	public List<EmployeeModel> getListByConditionWithDepartmentNoAndBehavesWithPage(int departmentNo,int behaveNo,String sex,Date startJoinDate,Date endJoinDate,int start,int rows) throws Exception;
+	//取得员工单个对象，同时取得关联的部门对象和关联的角色集合
+	public EmployeeModel getByIdWithDepartmentAndRoles(String id) throws Exception;
+	//取得所有员工列表，不取关联的部门对象，不取关联的角色集合,不分页
+	public List<EmployeeModel> getListByAllWithoutDepartmentAndRoles() throws Exception;
+	//取得所有员工列表，不取关联的部门对象，不取关联的角色集合,分页模式
+	public List<EmployeeModel> getListByAllWithoutDepartmentAndRolesWithPage(int rows,int page) throws Exception;
+	//取得所有员工列表，同时取关联的部门对象，不取关联的角色集合
+	public List<EmployeeModel> getListByAllWithDepartmentWithoutRoles() throws Exception;
+	//根据综合检索条件取得员工列表，取得关联的部门，不取关联的角色列表，分页模式
+	public List<EmployeeModel> getListByConditionWithDepartmentWithoutRolesWithPage(int departmentNo,int roleNo,String sex,Date startJoinDate,Date endJoinDate,int rows,int page) throws Exception;
 	//根据综合检索条件取得员工个数
-	public List<EmployeeModel> getCountByConditionWithDepartmentNoAndBehavesWithPage(int departmentNo,int behaveNo,String sex,Date startJoinDate,Date endJoinDate) throws Exception;
-	//为员工增加爱好
-	public void addBehaves(String id,int[] behaves) throws Exception;
-	//删除指定员工的所有爱好
-	public void deleteBehaves(String id) throws Exception;
+	public List<EmployeeModel> getCountByConditionWithDepartmentNoAndRolesWithPage(int departmentNo,int roleNo,String sex,Date startJoinDate,Date endJoinDate) throws Exception;
+	//为员工增加角色
+	public void addRoles(String id,int[] Roles) throws Exception;
+	//删除指定员工的所有角色
+	public void deleteRoles(String id) throws Exception;
 }
