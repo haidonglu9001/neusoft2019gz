@@ -4,16 +4,13 @@
  * 
  */
 $(function(){
-	var rows=2;
+	var rows=10;
 	var page=1;
 	var pageCount=0;
 
-	//嵌入列表页面
-	$("div#departmentmaincontent").load("department/list.html",function(){
-		//操作列表的方法
+	function getListInfo(){
 		//取得部门的列表，分页模式
-		function getListInfo(){
-			$.getJSON("department/list/all/page",{page:page,rows:rows},function(data){
+		$.getJSON("department/list/all/page",{page:page,rows:rows},function(data){
 				//显示个数和页数
 				$("span#count").html(data.count);
 				$("span#pagecount").html(data.page+"/"+data.pageCount);
@@ -24,12 +21,12 @@ $(function(){
 					var tr="<tr><td>"+data.list[i].code+"</td><td>"+data.list[i].name+"</td></tr>";
 					$("table#DepartmentTable tbody").append(tr);
 				}
-		
-			});
-		}
-		
-		//定义分页导航链接处理事件
-		$("div#page_nav a").on("click",function(event){
+	
+		 });
+			
+	}	
+	//定义分页导航链接处理事件
+	$("div#page_nav a").on("click",function(event){
 			  var action=$(this).attr("href");
 			  event.preventDefault();
 			  switch(action){
@@ -54,25 +51,59 @@ $(function(){
 			  		getListInfo();
 			  		break;
 			  }
-			  
+		
+	});
+	
+	//初始调用取得分页列表数据
+	getListInfo();
+	//点击增加链接处理，嵌入add.html
+	$("a#DepartmentAddLink").off().on("click",function(event){
+				
+		$("div#DepartmentDialogArea").load("department/add.html",function(){
+			$("div#DepartmentDialogArea" ).dialog({
+				title:"增加部门",
+				width:600
+			});
 			
-		});
-		//点击增加链接处理
-		$("a#DepartmentAddLink").off().on("click",function(event){
-			BootstrapDialog.alert('I want banana!');
-			
-			$("div#DepartmentDialogArea").load("department/add.html",function(){
-				$( "div#DepartmentDialogArea" ).dialog({
-					title:"增加部门",
-					width:600
-				});
+			$("form#DepartmentAddForm").ajaxForm(function(result){
+				if(result.status=="OK"){
+					getListInfo(); 
+				}
+				//alert(result.message);
+				//BootstrapDialog.alert(result.message);
+				BootstrapDialog.show({
+		            title: '部门操作信息',
+		            message:result.message
+		        });
+				$("div#DepartmentDialogArea" ).dialog( "close" );
+				$("div#DepartmentDialogArea" ).dialog( "destroy" );
+				$("div#DepartmentDialogArea").html("");
 				
 			});
 			
+			//点击取消按钮处理
+			$("input[value='取消']").on("click",function(){
+				$( "div#DepartmentDialogArea" ).dialog( "close" );
+				$( "div#DepartmentDialogArea" ).dialog( "destroy" );
+				$("div#DepartmentDialogArea").html("");
+			});
+			
+			
 		});
-		//初始调用取得分页列表数据
-		getListInfo();
+			
+			
+			
+			
+		
+		
+		/*
+		BootstrapDialog.alert('I want banana!');
+		
+		
+		*/
+		
 	});
+	
 	
 	
 	
