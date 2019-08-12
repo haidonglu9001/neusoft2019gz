@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.neusoft.oa.hr.mapper.IDepartmentMapper;
+import com.neusoft.oa.hr.mapper.IEmployeeMapper;
 import com.neusoft.oa.hr.model.DepartmentModel;
 import com.neusoft.oa.hr.service.IDepartmentService;
+import com.neusoft.oa.hr.service.IEmployeeService;
 /*
  * 模块：HR 人力资源
  * 部门业务层接口的实现类
@@ -19,6 +21,8 @@ import com.neusoft.oa.hr.service.IDepartmentService;
 public class DepartmentServiceImpl implements IDepartmentService {
 	@Autowired
 	private IDepartmentMapper departmentMapper=null;
+	@Autowired
+	private IEmployeeMapper employeeMapper=null;
 
 	@Override
 	public void add(DepartmentModel department) throws Exception {
@@ -78,6 +82,16 @@ public class DepartmentServiceImpl implements IDepartmentService {
 			pageCount=count/rows+1;
 		}
 		return pageCount;
+	}
+
+	@Override
+	public boolean checkCanDelete(int no) throws Exception {
+		boolean result=true;
+		if(employeeMapper.selectCountByCondition(no,0, "", null, null)>0) {
+			result=false;
+		}
+		
+		return result;
 	}
 
 }

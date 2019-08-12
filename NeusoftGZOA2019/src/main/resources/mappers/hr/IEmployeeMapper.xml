@@ -95,7 +95,7 @@
      <if test="departmentNo!=0">
       and a.DEPTNO=#{departmentNo}
      </if>
-     <if test="RoleNo!=0">
+     <if test="roleNo!=0">
      and a.EMPID in (select EMPID from oa_employeeRole where RNO=#{RoleNo})
      </if>
      <if test="sex!=null and sex!=''">
@@ -113,22 +113,22 @@
   
   <!-- 根据综合检索条件取得员工个数-->
   <select id="selectCountByCondition" resultType="int">
-  select select IFNULL(count(EMPID), 0) from oa_employee 
+  select IFNULL(count(EMPID), 0) from oa_employee 
   <where>
      <if test="departmentNo!=0">
-      and a.DEPTNO=#{departmentNo}
+      and DEPTNO=#{departmentNo}
      </if>
-     <if test="RoleNo!=0">
-     and a.EMPID in (select EMPID from oa_employeeRole where RNO=#{roleNo})
+     <if test="roleNo!=0">
+     and EMPID in (select EMPID from oa_employeeRole where RNO=#{roleNo})
      </if>
      <if test="sex!=null and sex!=''">
-     and a.EMPSEX=#{sex}
+     and EMPSEX=#{sex}
      </if>
      <if test="startJoinDate!=null">
-     and a.JOINDATE  &gt;=#{startJoinDate}
+     and JOINDATE  &gt;=#{startJoinDate}
      </if>
      <if test="endJoinDate!=null">
-     and a.JOINDATE &lt;=#{endJoinDate}
+     and JOINDATE &lt;=#{endJoinDate}
      </if>
   </where>
    

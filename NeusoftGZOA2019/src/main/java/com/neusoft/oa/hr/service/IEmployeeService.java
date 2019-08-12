@@ -34,7 +34,7 @@ public interface IEmployeeService {
 	//根据综合检索条件取得员工列表，取得关联的部门，不取关联的角色列表，分页模式
 	public List<EmployeeModel> getListByConditionWithDepartmentWithoutRolesWithPage(int departmentNo,int roleNo,String sex,Date startJoinDate,Date endJoinDate,int rows,int page) throws Exception;
 	//根据综合检索条件取得员工个数
-	public List<EmployeeModel> getCountByConditionWithDepartmentNoAndRolesWithPage(int departmentNo,int roleNo,String sex,Date startJoinDate,Date endJoinDate) throws Exception;
+	public int getCountByConditionWithDepartmentNoAndRolesWithPage(int departmentNo,int roleNo,String sex,Date startJoinDate,Date endJoinDate) throws Exception;
 	//为员工增加角色
 	public void addRoles(String id,int[] Roles) throws Exception;
 	//删除指定员工的所有角色

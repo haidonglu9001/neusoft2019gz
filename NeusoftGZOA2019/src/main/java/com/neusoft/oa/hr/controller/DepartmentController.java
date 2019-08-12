@@ -40,13 +40,17 @@ public class DepartmentController {
 	//删除部门
 	@PostMapping("/delete")
 	public ResultMessage<DepartmentModel> delete(DepartmentModel Department) throws Exception {
-		departmentService.modify(Department);
+		departmentService.delete(Department);
 		return new ResultMessage<DepartmentModel>("OK","删除部门成功");
 	}
 	//取得指定的部门
 	@GetMapping("/get")
-	public DepartmentModel getByNo(int no) throws Exception{
-		return departmentService.getByNo(no);
+	public ResultMessage<DepartmentModel> getByNo(int no) throws Exception{
+		
+		ResultMessage<DepartmentModel> result=new ResultMessage<DepartmentModel>("OK","取得部门成功");
+		result.setModel(departmentService.getByNo(no));
+		return result;
+		
 	}
 	//取得所有部门列表，有分页
 	@GetMapping(value="/list/all/page")
@@ -66,5 +70,16 @@ public class DepartmentController {
 	public List<DepartmentModel> getListByAll() throws Exception{
 		return departmentService.getListByAll();
 	}
+	//检查此部门能否被删除
+	@GetMapping(value="/checkDelete")
+	public ResultMessage<DepartmentModel> checkForDelete(int no) throws Exception{
+		ResultMessage<DepartmentModel> result=new ResultMessage<DepartmentModel>("OK","此部门可以删除");
+		if(!departmentService.checkCanDelete(no)) {
+			result.setStatus("NO");
+			result.setMessage("此部门不能删除");
+		}
+		return result;
+	}
+	
 
 }

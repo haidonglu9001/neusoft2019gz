@@ -88,7 +88,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public List<EmployeeModel> getCountByConditionWithDepartmentNoAndRolesWithPage(int departmentNo, int roleNo,
+	public int getCountByConditionWithDepartmentNoAndRolesWithPage(int departmentNo, int roleNo,
 			String sex, Date startJoinDate, Date endJoinDate) throws Exception {
 		
 		return employeeMapper.selectCountByCondition(departmentNo, roleNo, sex, startJoinDate, endJoinDate);

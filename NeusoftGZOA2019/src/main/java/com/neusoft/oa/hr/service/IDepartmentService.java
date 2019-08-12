@@ -28,6 +28,8 @@ public interface IDepartmentService {
 	public int getCountByAll() throws Exception;
 	//取得部门页数
 	public int getPagaCountByAll(int rows) throws Exception;
+	//检查部门能否被删除
+	public boolean checkCanDelete(int no) throws Exception;
 	
 
 }
