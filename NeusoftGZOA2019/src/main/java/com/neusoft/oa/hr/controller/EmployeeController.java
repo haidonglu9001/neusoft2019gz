@@ -1,8 +1,10 @@
 package com.neusoft.oa.hr.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.neusoft.oa.hr.model.DepartmentModel;
 import com.neusoft.oa.hr.model.EmployeeModel;
 
 import com.neusoft.oa.hr.service.IEmployeeService;
@@ -78,8 +81,18 @@ public class EmployeeController {
 		return employeeService.getListByAllWithDepartmentWithoutRoles(); //取得关联的部门，但不取关联的角色
 	}
 	
-	//按检索提交取得员工列表
-	
+	//按检索条件取得员工列表
+	@GetMapping(value="/list/condition/page")
+	public ResultMessage<EmployeeModel> getListByConditionWitPage(@RequestParam(required = false,defaultValue ="0") int departmentNo,@RequestParam(required = false,defaultValue ="0") int roleNo,@RequestParam(required = false,defaultValue ="") String sex,@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) Date startJoinDate,@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) Date endJoinDate, @RequestParam(required = false,defaultValue ="10") int rows,@RequestParam(required = false,defaultValue = "1") int page) throws Exception{
+		ResultMessage<EmployeeModel> result=new ResultMessage<EmployeeModel>("OK","取得员工列表分页成功");
+		result.setCount(employeeService.getCountByConditionWithDepartmentNoAndRolesWithPage(departmentNo, roleNo, sex, startJoinDate, endJoinDate));
+		result.setPageCount(employeeService.getPageCountByConditionWithDepartmentNoAndRolesWithPage(departmentNo, roleNo, sex, startJoinDate, endJoinDate, rows));
+		result.setList(employeeService.getListByConditionWithDepartmentWithoutRolesWithPage(departmentNo, roleNo, sex, startJoinDate, endJoinDate, rows, page));
+		result.setPage(page);
+		result.setRows(rows);
+		
+		return result;
+	}
 	
 	
 

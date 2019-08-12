@@ -93,6 +93,19 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		
 		return employeeMapper.selectCountByCondition(departmentNo, roleNo, sex, startJoinDate, endJoinDate);
 	}
+	@Override
+	public int getPageCountByConditionWithDepartmentNoAndRolesWithPage(int departmentNo, int roleNo, String sex,
+			Date startJoinDate, Date endJoinDate, int rows) throws Exception {
+		int pageCount=0;
+		int count=this.getCountByConditionWithDepartmentNoAndRolesWithPage(departmentNo, roleNo, sex, startJoinDate, endJoinDate);
+		if(count%rows==0) {
+			pageCount=count/rows;
+		}
+		else {
+			pageCount=count/rows+1;
+		}
+		return pageCount;
+	}
 
 	@Override
 	public void addRoles(String id, int[] Roles) throws Exception {
@@ -105,5 +118,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		employeeMapper.deleteRoles(id);
 
 	}
+
+	
 
 }
