@@ -1,7 +1,7 @@
 /**
- * 员工前端主管理JS
+ * 前端主管理JS
  * 模块：HR
- * 业务对象：员工
+ * 业务对象：Role
  * 作者:吕海东
  * 
  */
@@ -34,7 +34,10 @@ $(function(){
 		      records: "count", 
 		      repeatitems: true, 
 		      id: "no"},
-		pager: "#RoleGridPager"
+		pager: "#RoleGridPager",
+		onSelectRow:function(roleNo){
+			
+		}
 		
 	});
 	

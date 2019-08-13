@@ -29,9 +29,10 @@ $(function(){
 			{ label: '出生日期', name: 'birthday', width: 70 },
 			{ label: '入职日期', name: 'joinDate', width: 70 }   
 		],
+		caption:"员工列表",
 		viewrecords: true, 
 		autowidth: true,
-		height: 300,
+		height: 400,
 		rowNum: 20,
 		rowList:[10,20,30],
 		jsonReader : { 
@@ -41,7 +42,11 @@ $(function(){
 		      records: "count", 
 		      repeatitems: true, 
 		      id: "id"},
-		pager: "#EmployeeGridPager"
+		pager: "#EmployeeGridPager",
+		multiselect:false,
+		onSelectRow:function(empid){
+			employeeId=empid;
+		}
 		
 	});
 	//取得部门列表，填充部门下拉框
@@ -60,14 +65,24 @@ $(function(){
 			});
 		}
 	});
-	
-	//更新jQGrid的列表显示
+	//设置检索参数，更新jQGrid的列表显示
 	function reloadEmployeeList()
 	{
 		$("table#EmployeeGrid").jqGrid('setGridParam',{postData:{departmentNo:departmentNo,roleNo:roleNo,sex:sex,startJoinDate:startJoinDate,endJoinDate:endJoinDate}}).trigger("reloadGrid");
 		
 	}
 	
+	//定义部门下拉框的更新事件的处理
+	$("select#DepartmentSelection").off().on("change",function(){
+		departmentNo=$("select#DepartmentSelection").val();
+		reloadEmployeeList();
+	});
+	
+	//定义性别单选按钮更改事件
+	$("input[name='empsex']").off().on("change",function(){
+		sex=$("input[name='empsex']:checked").val();
+		reloadEmployeeList();
+	});
 	//点击检索事件处理
 	$("a#EmployeeSearchButton").on("click",function(){
 		departmentNo=$("select#DepartmentSelection").val();
