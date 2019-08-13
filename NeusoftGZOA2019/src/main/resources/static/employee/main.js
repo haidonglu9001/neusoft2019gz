@@ -40,7 +40,7 @@ $(function(){
 		      records: "count", 
 		      repeatitems: true, 
 		      id: "id"},
-		pager: "div#EmployeeGridPager",
+		pager: "#EmployeeGridPager"
 		
 	});
 	//更新jQGrid的列表显示

@@ -51,7 +51,7 @@ public class RoleController {
 	@GetMapping(value="/list/all/page")
 	public ResultMessage<RoleModel> getListByAllWitPage(@RequestParam(required = false,defaultValue ="10") int rows,@RequestParam(required = false,defaultValue = "1") int page) throws Exception{
 		
-		ResultMessage<RoleModel> result=new ResultMessage<RoleModel>("OK","取得部门列表分页模式成功");
+		ResultMessage<RoleModel> result=new ResultMessage<RoleModel>("OK","取得角色列表分页模式成功");
 		result.setCount(roleService.getCountByAll());
 		result.setPageCount(roleService.getPagaCountByAll(rows));
 		result.setList(roleService.getListByAllWithPage(rows, page));
