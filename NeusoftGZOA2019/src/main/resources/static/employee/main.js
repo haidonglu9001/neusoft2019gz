@@ -23,15 +23,16 @@ $(function(){
 		colModel: [
 			{ label: '账号', name: 'id', width: 75 },
 			{ label: '姓名', name: 'name', width: 90 },
+			{ label: '部门', name: 'department.name', width: 100 },
 			{ label: '性别', name: 'sex', width: 40 },
 			{ label: '年龄', name: 'age', width: 50},
 			{ label: '生日', name: 'birthday', width: 100 }                   
 		],
 		viewrecords: true, 
 		autowidth: true,
-		height: 400,
+		height: 300,
 		rowNum: 20,
-		rowList:[10,15,20],
+		rowList:[10,20,30],
 		jsonReader : { 
 		      root: "list", 
 		      page: "page", 
@@ -40,11 +41,7 @@ $(function(){
 		      repeatitems: true, 
 		      id: "id"},
 		pager: "div#EmployeeGridPager",
-		multiselect:false,
-		onSelectRow:function(id){
-			employeeId=id;
-			alert(employeeId);
-		}
+		
 	});
 	//更新jQGrid的列表显示
 	function reloadEmployeeList()
