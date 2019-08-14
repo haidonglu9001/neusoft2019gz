@@ -72,7 +72,26 @@ $(function(){
 				title:"增加部门",
 				width:600
 			});
-			
+			//验证数据
+			$("form#DepartmentAddForm" ).validate({
+				  rules: {
+				    code: {
+				      required: true
+				    },
+				    name:{
+				    	required: true
+				    }
+				  },
+				  messages:{
+					code: {
+					      required: "部门编码为空"
+					    },
+					    name:{
+					    	required:"部门名称为空"
+					    }
+				 }
+			});
+			//拦截增加表单提交
 			$("form#DepartmentAddForm").ajaxForm(function(result){
 				if(result.status=="OK"){
 					getListInfo(); 

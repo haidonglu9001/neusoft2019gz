@@ -19,7 +19,7 @@
       <result property="photoFileName" column="photoFileName"/>
       <result property="photoContentType" column="photoContentType"/>
       <result property="mail" column="MAIL"/>
-      
+      <result property="mobile" column="MOBILE"/>
   </resultMap>
   <!-- 关联的部门的ResultMap -->
   <resultMap  id="EmployeeWithDepartmentResultMap" type="Employee" extends="EmployeeResultMap">
@@ -36,29 +36,29 @@
   </resultMap>
   <!-- 无图片增加 -->
   <insert id="insert"  parameterType="Employee" flushCache="true">
-   insert into oa_employee (EMPUSERID,EMPUSERPASSWORD,EMPUSERNAME,EMPSEX,AGE,SALARY,Birthday,JOINDATE,Mail)
-   values (#{id},#{password},#{name},#{sex},#{age},#{salary},#{birthday},#{joinDate},#{mail})
+   insert into oa_employee (EMPUSERID,EMPUSERPASSWORD,EMPUSERNAME,EMPSEX,AGE,SALARY,Birthday,JOINDATE,Mail,Mobile)
+   values (#{id},#{password},#{name},#{sex},#{age},#{salary},#{birthday},#{joinDate},#{mail},#{mobile})
   <!-- 有图片增加 -->
   </insert>
   <insert id="createWithPhoto"  parameterType="Employee" flushCache="true">
-   insert into oa_employee (EMPUSERID,EMPUSERPASSWORD,EMPUSERNAME,EMPSEX,AGE,SALARY,Birthday,JOINDATE,Mail,PHOTO,PHOTOFILENAME,PHOTOCONTENTTYPE)
-   values (#{id},#{password},#{name},#{sex},#{age},#{salary},#{birthday},#{joinDate},#{mail},#{photo},#{photoFileName},#{photoContentType})
+   insert into oa_employee (EMPUSERID,EMPUSERPASSWORD,EMPUSERNAME,EMPSEX,AGE,SALARY,Birthday,JOINDATE,Mail,Mobile,PHOTO,PHOTOFILENAME,PHOTOCONTENTTYPE)
+   values (#{id},#{password},#{name},#{sex},#{age},#{salary},#{birthday},#{joinDate},#{mail},#{mobile},#{photo},#{photoFileName},#{photoContentType})
   
   </insert>
   <!-- 无图片修改 -->
   <update id="update" flushCache="true">
    update oa_employee set EMPPassword=#{password},EMPName=#{name},EMPSEX=#{sex},age=#{age},salary=#{salary}
-   ,Birthday=#{birthday},JoinDate=#{joinDate},MAIL=#{mail} 
+   ,Birthday=#{birthday},JoinDate=#{joinDate},MAIL=#{mail},Mobile=#{mobile}
    where USERID=#{id}
   </update>
   <!-- 有图片修改 -->
   <update id="updateWithPhoto" flushCache="true">
    update oa_employee set EMPPassword=#{password},EMPName=#{name},EMPSEX=#{sex},age=#{age},salary=#{salary}
-   ,Birthday=#{birthday},JoinDate=#{joinDate},MAIL=#{mail},PHOTO=#{photo},photoFileName=#{photoFileName},photoContentType=#{photoContentType}
+   ,Birthday=#{birthday},JoinDate=#{joinDate},MAIL=#{mail},,Mobile=#{mobile},PHOTO=#{photo},photoFileName=#{photoFileName},photoContentType=#{photoContentType}
    where EMPID=#{id}
   </update>
   
-  <update id="pdateForDeletePhoto">
+  <update id="updateForDeletePhoto">
   update oa_employee set PHOTO=null,photoFileName=null,photoContentType=null where EMPID=#{id}
   </update>
  
@@ -68,9 +68,9 @@
   </delete>
   
   <select id="selectByIdWithDepartmentAndRoles" resultMap="EmployeeWithDepartmentRolesResultMap" >
-  select a.*,d.* from oa_employee a inner join oa_department b on a.DEPTNO=b.DEPTNO
+  select a.*,b.*,d.* from oa_employee a inner join oa_department b on a.DEPTNO=b.DEPTNO
   left outer join oa_employeeRole c on a.EMPID=c.EMPID 
-  left outer join oa_Role d on c.RNO=d.BNO 
+  left outer join oa_Role d on c.RNO=d.RNO 
    where a.EMPID=#{id}  
   </select>
   
@@ -147,6 +147,18 @@
    <delete id="deleteRoles" >
    delete from oa_employeeRole where EMPID=#{id}
    </delete>
+   
+   <select id="selectCountByIdAndPassword" resultType="int">
+    select IFNULL(count(EMPID), 0) from oa_employee
+    <where>
+    	<if test="id!=null and id!=''">
+    	and EMPID=#{id}
+    	</if>
+    	<if test="password!=null and password!=''">
+    	and EMPPASSWORD=#{password}
+    	</if>
+    </where>
+   </select>
   
   
 </mapper>

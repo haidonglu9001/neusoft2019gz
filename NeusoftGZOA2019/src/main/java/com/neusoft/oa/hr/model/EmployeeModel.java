@@ -25,14 +25,18 @@ public class EmployeeModel implements Serializable {
 	private int age=0;
 	private double salary=0;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	//@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	//推荐设置全局JSON转换配置，如果全局转换配置不符合自己的需求，可以使用@JsonFormat对属性进行定制
 	private Date birthday=null;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+
 	private Date joinDate=null;
 	@JsonIgnore
 	private byte[] photo=null;
 	private String photoFileName=null;
 	private String photoContentType=null;
-	private String mail=null;
+	private String mail=null; //邮箱
+	private String mobile=null; //手机号码
 	//关联的部门
 	private DepartmentModel department=null;
 	//员工的角色列表

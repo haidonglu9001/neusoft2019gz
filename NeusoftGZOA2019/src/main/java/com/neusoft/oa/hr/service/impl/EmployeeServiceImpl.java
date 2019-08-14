@@ -118,6 +118,24 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		employeeMapper.deleteRoles(id);
 
 	}
+	//检查员工ID是否存在
+	@Override
+	public boolean checkIdExist(String id) throws Exception {
+		boolean result=false;
+		if(employeeMapper.selectCountByIdAndPassword(id, "")>0) {
+			result=true;
+		}
+		return result;
+	}
+	//验证员工是否合法
+	@Override
+	public boolean checkValidate(String id, String password) throws Exception {
+		boolean result=false;
+		if(employeeMapper.selectCountByIdAndPassword(id, password)>0) {
+			result=true;
+		}
+		return result;
+	}
 
 	
 

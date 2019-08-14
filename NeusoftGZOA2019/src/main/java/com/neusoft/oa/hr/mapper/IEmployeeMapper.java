@@ -43,5 +43,7 @@ public interface IEmployeeMapper {
 	public void addRoles(@Param("id") String id,@Param("Roles") int[] Roles) throws Exception;
 	//删除指定员工的所有爱好
 	public void deleteRoles(String id) throws Exception;
+	//检查指定的ID的员工个数，用于验证员工ID是否存在
+	public int selectCountByIdAndPassword(@Param("id") String id,@Param("password") String password) throws Exception;
 	
 }

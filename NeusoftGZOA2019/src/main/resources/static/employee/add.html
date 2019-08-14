@@ -6,38 +6,77 @@
       <div class="box-body">
         <!-- 增加员工表单 -->
        	 <!-- form start -->
-            <form role="form" action="register.do" method="post">
+            <form id="EmployeeAddForm" role="form" action="employee/add" method="post" enctype="multipart/form-data">
               <div class="box-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">账号</label>
-                  <input type="text" class="form-control" name="id"  placeholder="账号">
+                <div class="rows">
+                	<div class="col-md-6">
+                		<div class="form-group">
+		                  <label for="exampleInputEmail1">账号</label>
+		                  <input type="text" class="form-control" name="id"  placeholder="账号">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputPassword1">密码</label>
+		                  <input type="password" class="form-control" name="password"  placeholder="密码">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">姓名</label>
+		                  <input type="text" class="form-control" name="name"  placeholder="姓名">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">性别</label>
+		                  <input type="radio"  name="sex" value="男" checked />男
+		                  <input type="radio"  name="sex" value="女" />女
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">年龄</label>
+		                  <input type="text" class="form-control" name="age" placeholder="年龄">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">部门</label>
+		                  <select name="department.no" class="form-control" >
+		                  </select>
+		                </div>
+		                <div class="form-group" id="RoleListFor">
+		                  	<label for="exampleInputEmail1">授权角色</label>
+		                  	<input type="checkbox" name="employeeRoles" value="1" />管理员
+		                	<input type="checkbox" name="employeeRoles" value="2" />员工
+		                	<input type="checkbox" name="employeeRoles" value="3" />经理
+						  
+		                </div>
+                	</div>
+                	<div class="col-md-6">
+                		<div class="form-group">
+		                  <label for="exampleInputEmail1">工资</label>
+		                  <input type="text" class="form-control" name="salary" placeholder="工资">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">出生日期</label>
+		                  <input type="date" class="form-control" name="joinDate" placeholder="出生日期">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">入职日期</label>
+		                  <input type="date" class="form-control" name="joinDate" placeholder="入职日期">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">手机</label>
+		                  <input type="text" class="form-control" name="mobile" placeholder="手机">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">邮箱</label>
+		                  <input type="text" class="form-control" name="mail" placeholder="邮箱">
+		                </div>
+		                 <div class="form-group">
+		                  <label for="exampleInputEmail1">照片</label>
+		                  <input type="file" class="form-control" name="employeePhoto" placeholder="入职日期">
+		                </div>
+                	</div>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">密码</label>
-                  <input type="password" class="form-control" name="password"  placeholder="密码">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">姓名</label>
-                  <input type="text" class="form-control" name="name"  placeholder="姓名">
-                </div>
-                <div class="form-group" id="RoleListFor">
-                  <label for="exampleInputEmail1">授权角色</label>
-                 
-                	
-				  
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">年龄</label>
-                  <input type="number" class="form-control" name="age" placeholder="年龄">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">入职日期</label>
-                  <input type="date" class="form-control" name="joinDate" placeholder="入职日期">
-                </div>
+                
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary">提交</button>
+                <input type="button" class="btn btn-primary" value="取消" />
               </div>
             </form>
       </div>

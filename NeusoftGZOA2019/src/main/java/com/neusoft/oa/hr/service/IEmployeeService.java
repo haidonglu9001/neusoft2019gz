@@ -41,4 +41,8 @@ public interface IEmployeeService {
 	public void addRoles(String id,int[] Roles) throws Exception;
 	//删除指定员工的所有角色
 	public void deleteRoles(String id) throws Exception;
+	//验证员工ID是否存在
+	public  boolean checkIdExist(String id) throws Exception;
+	//验证员工是否合法
+	public boolean checkValidate(String id,String password) throws Exception;
 }

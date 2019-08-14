@@ -99,6 +99,142 @@ $(function(){
 		}
 		reloadEmployeeList();
 	});
+	//===========================增加员工处理================================================
+	$("a#EmployeeAddLink").off().on("click",function(){
+		$("div#EmployeeDialog").load("employee/add.html",function(){
+			//取得部门列表，并填充部门下拉框
+			
+			//取得角色列表，生成角色选择下拉框
+			
+			//验证员工提交数据
+			$("form#EmployeeAddForm").validate({
+				  rules: {
+				    id: {
+				      required: true,
+				      remote: "employee/checkidexist"
+				      
+				    },
+				    name:{
+				    	required: true
+				    },
+				    age:{
+				    	number: true,
+				    	range: [18, 60]
+				    },
+				    mobile:{
+				    	required:true,
+				    	mobile:true
+				    	
+				    }
+				  },
+				  messages:{
+					id: {
+					      required: "账号为空",
+					      remote:"账号已经存在"
+					    },
+					name:{
+					    	required:"部门名称为空"
+					},
+					age:{
+						number: "年龄必须是数值",
+				    	range:"年龄需要在18和60之间"
+					}
+				 }
+			});
+			//拦截增加提交表单
+			$("form#EmployeeAddForm").ajaxForm(function(result){
+				if(result.status=="OK"){
+					reloadEmployeeList();//更新员工列表
+				}
+				//alert(result.message);
+				//BootstrapDialog.alert(result.message);
+				BootstrapDialog.show({
+		            title: '部门操作信息',
+		            message:result.message
+		        });
+				$("div#DepartmentDialogArea" ).dialog( "close" );
+				$("div#DepartmentDialogArea" ).dialog( "destroy" );
+				$("div#DepartmentDialogArea").html("");
+				
+			});
+			
+			
+			$("div#EmployeeDialog").dialog({
+				title:"员工增加",
+				width:800
+			});
+			//点击取消按钮，管理弹出窗口
+			$("input[value='取消']").off().on("click",function(){
+				$("div#EmployeeDialog").dialog("close");
+				$("div#EmployeeDialog").dialog("destroy")
+				$("div#EmployeeDialog").html("");
+			});
+			
+			
+		});
+		
+	});
+	
+	//===============================修改员工处理===============================================================
+	
+	
+	
+	//===============================删除员工处理==============================================================
+	
+	
+	
+	//================================查看员工处理=============================================================
+	$("a#EmployeeViewLink").off().on("click",function(){
+		if(employeeId==null){
+			BootstrapDialog.show({
+	            title: '员工操作信息',
+	            message:"请选择要查看的员工",
+	            buttons: [{
+	                label: '确定',
+	                action: function(dialog) {
+	                    dialog.close();
+	                }
+	            }]
+	        });
+		}
+		else{
+			$("div#EmployeeDialog").load("employee/view.html",function(){
+				//取得指定的员工信息
+				$.getJSON(host+"/employee/get",{id:employeeId},function(em){
+					if(em){
+						$("span#employeeId").html(employeeId);
+						$("span#employeeName").html(em.name);
+						$("span#employeeSex").html(em.sex);
+						$("span#departmentName").html(em.department.name);
+						if(em.roles){
+							$.each(em.roles,function(index,roleModel){
+								$("span#roles").append(roleModel.name+"  ");
+							});
+						}
+					}
+				});
+				
+				
+				$("div#EmployeeDialog").dialog({
+					title:"员工详细",
+					width:800
+				});
+				//点击取消按钮，管理弹出窗口
+				$("input[value='关闭']").off().on("click",function(){
+					$("div#EmployeeDialog").dialog("close");
+					$("div#EmployeeDialog").dialog("destroy")
+					$("div#EmployeeDialog").html("");
+				});
+				
+				
+			});
+		}
+		
+		
+		
+	});
+	
+	
 	
 	
 });
