@@ -147,7 +147,7 @@
    <delete id="deleteRoles" >
    delete from oa_employeeRole where EMPID=#{id}
    </delete>
-   
+   <!-- 根据ID和password取得员工的人数 -->
    <select id="selectCountByIdAndPassword" resultType="int">
     select IFNULL(count(EMPID), 0) from oa_employee
     <where>

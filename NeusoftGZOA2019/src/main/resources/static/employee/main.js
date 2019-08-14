@@ -18,7 +18,7 @@ $(function(){
 	
 	//显示员工列表
 	$("table#EmployeeGrid").jqGrid({
-		url: 'employee/list/condition/page',
+		url: host+'employee/list/condition/page',
 		datatype: "json",
 		colModel: [
 			{ label: '账号', name: 'id', width: 75 },
@@ -50,7 +50,7 @@ $(function(){
 		
 	});
 	//取得部门列表，填充部门下拉框
-	$.getJSON("department/list/all",function(departmentList){
+	$.getJSON(host+"department/list/all",function(departmentList){
 		if(departmentList){
 			$.each(departmentList,function(index,dm){
 				$("select#DepartmentSelection").append("<option value='"+dm.no+"'>"+dm.name+"</option>");
@@ -58,7 +58,7 @@ $(function(){
 		}
 	});
 	//取得角色列表，填充角色下拉框
-	$.getJSON("role/list/all",function(roleList){
+	$.getJSON(host+"role/list/all",function(roleList){
 		if(roleList){
 			$.each(roleList,function(index,rm){
 				$("select#RoleSelection").append("<option value='"+rm.no+"'>"+rm.name+"</option>");
@@ -111,7 +111,7 @@ $(function(){
 				  rules: {
 				    id: {
 				      required: true,
-				      remote: "employee/checkidexist"
+				      remote: host+"employee/checkidexist"
 				      
 				    },
 				    name:{
@@ -119,7 +119,13 @@ $(function(){
 				    },
 				    age:{
 				    	number: true,
+				    	min:18,
+				    	max:60,
 				    	range: [18, 60]
+				    },
+				    mail:{
+				    	required:true,
+				    	email: true
 				    },
 				    mobile:{
 				    	required:true,
@@ -161,7 +167,7 @@ $(function(){
 			
 			$("div#EmployeeDialog").dialog({
 				title:"员工增加",
-				width:800
+				width:950
 			});
 			//点击取消按钮，管理弹出窗口
 			$("input[value='取消']").off().on("click",function(){
