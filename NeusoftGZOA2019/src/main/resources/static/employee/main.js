@@ -103,9 +103,21 @@ $(function(){
 	$("a#EmployeeAddLink").off().on("click",function(){
 		$("div#EmployeeDialog").load("employee/add.html",function(){
 			//取得部门列表，并填充部门下拉框
-			
+			$.getJSON(host+"department/list/all",function(departmentList){
+				if(departmentList){
+					$.each(departmentList,function(index,dm){
+						$("select[name='department.no']").append("<option value='"+dm.no+"'>"+dm.name+"</option>");
+					});
+				}
+			});
 			//取得角色列表，生成角色选择下拉框
-			
+			$.getJSON(host+"role/list/all",function(roleList){
+				if(roleList){
+					$.each(roleList,function(index,rm){
+						$("div#RoleListForEMP").append("<input type='checkbox' name='employeeRoles' value='"+rm.no+"' />"+rm.name);
+					});
+				}
+			});
 			//验证员工提交数据
 			$("form#EmployeeAddForm").validate({
 				  rules: {
@@ -155,12 +167,12 @@ $(function(){
 				//alert(result.message);
 				//BootstrapDialog.alert(result.message);
 				BootstrapDialog.show({
-		            title: '部门操作信息',
+		            title: '员工操作信息',
 		            message:result.message
 		        });
-				$("div#DepartmentDialogArea" ).dialog( "close" );
-				$("div#DepartmentDialogArea" ).dialog( "destroy" );
-				$("div#DepartmentDialogArea").html("");
+				$("div#EmployeeDialog").dialog( "close" );
+				$("div#EmployeeDialog").dialog( "destroy" );
+				$("div#EmployeeDialog").html("");
 				
 			});
 			
@@ -182,9 +194,61 @@ $(function(){
 	});
 	
 	//===============================修改员工处理===============================================================
-	
-	
-	
+	$("a#EmployeeModifyLink").off().on("click",function(){
+		if(employeeId==null){
+			BootstrapDialog.show({
+	            title: '员工操作信息',
+	            message:"请选择要修改的员工",
+	            buttons: [{
+	                label: '确定',
+	                action: function(dialog) {
+	                    dialog.close();
+	                }
+	            }]
+	        });
+		}
+		else{
+			$("div#EmployeeDialog").load("employee/modify.html",function(){
+				//取得指定的员工信息
+				$.getJSON(host+"/employee/get",{id:employeeId},function(em){
+					if(em){
+						$("span#employeeId").html(employeeId);
+						$("span#employeeName").html(em.name);
+						$("span#employeeSex").html(em.sex);
+						$("span#empage").html(em.age);
+						$("span#empsalary").html(em.salary);
+						$("span#empbirthday").html(em.birthday);
+						$("span#empjoindate").html(em.joinDate);
+						$("span#departmentName").html(em.department.name);
+						if(em.roles){
+							$.each(em.roles,function(index,roleModel){
+								$("span#emproles").append(roleModel.name+"  ");
+							});
+						}
+						if(em.photoFileName!=null&&em.photoFileName!=""){
+							$("span#empphoto").html("<img src='employee/downphoto?id="+employeeId+"' />");
+						}
+						else{
+							$("span#empphoto").html("无照片");
+						}
+						
+					}
+				});
+				$("div#EmployeeDialog").dialog({
+					title:"员工修改",
+					width:800
+				});
+				//点击取消按钮，管理弹出窗口
+				$("input[value='取消']").off().on("click",function(){
+					$("div#EmployeeDialog").dialog("close");
+					$("div#EmployeeDialog").dialog("destroy")
+					$("div#EmployeeDialog").html("");
+				});
+				
+				
+			});
+		}
+	});
 	//===============================删除员工处理==============================================================
 	
 	
@@ -211,12 +275,23 @@ $(function(){
 						$("span#employeeId").html(employeeId);
 						$("span#employeeName").html(em.name);
 						$("span#employeeSex").html(em.sex);
+						$("span#empage").html(em.age);
+						$("span#empsalary").html(em.salary);
+						$("span#empbirthday").html(em.birthday);
+						$("span#empjoindate").html(em.joinDate);
 						$("span#departmentName").html(em.department.name);
 						if(em.roles){
 							$.each(em.roles,function(index,roleModel){
-								$("span#roles").append(roleModel.name+"  ");
+								$("span#emproles").append(roleModel.name+"  ");
 							});
 						}
+						if(em.photoFileName!=null&&em.photoFileName!=""){
+							$("span#empphoto").html("<img src='employee/downphoto?id="+employeeId+"' />");
+						}
+						else{
+							$("span#empphoto").html("无照片");
+						}
+						
 					}
 				});
 				

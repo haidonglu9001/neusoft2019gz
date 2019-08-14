@@ -1,18 +1,16 @@
-
 <!-- Main row -->
 <div class="row">
     <div class="col-xs-12">
-     
       <div class="box-body">
-        <!-- 增加员工表单 -->
+        <!-- 修改员工表单 -->
        	 <!-- form start -->
-            <form role="form" action="employee/modify" method="post">
+            <form id="EmployeeAddForm" role="form" action="employee/modify" method="post" enctype="multipart/form-data">
               <div class="box-body">
                 <div class="rows">
                 	<div class="col-md-6">
                 		<div class="form-group">
 		                  <label for="exampleInputEmail1">账号</label>
-		                  <input type="text" class="form-control" name="id"  placeholder="账号">
+		                  <input type="text" class="form-control" name="id"  placeholder="账号"  readonly>
 		                </div>
 		                <div class="form-group">
 		                  <label for="exampleInputPassword1">密码</label>
@@ -28,38 +26,43 @@
 		                  <input type="radio"  name="sex" value="女" />女
 		                </div>
 		                <div class="form-group">
+		                  <label for="exampleInputEmail1">年龄</label>
+		                  <input type="text" class="form-control" name="age" placeholder="年龄">
+		                </div>
+		                <div class="form-group">
 		                  <label for="exampleInputEmail1">部门</label>
 		                  <select name="department.no" class="form-control" >
 		                  </select>
 		                </div>
-		                <div class="form-group" id="RoleListFor">
+		                <div class="form-group" id="RoleListForEMP">
 		                  	<label for="exampleInputEmail1">授权角色</label>
-		                  	<input type="checkbox" name="employeeRoles" value="1" />管理员
-		                	<input type="checkbox" name="employeeRoles" value="2" />员工
-		                	<input type="checkbox" name="employeeRoles" value="3" />经理
-						  
+		                  	
 		                </div>
                 	</div>
                 	<div class="col-md-6">
                 		<div class="form-group">
-		                  <label for="exampleInputEmail1">年龄</label>
-		                  <input type="number" class="form-control" name="age" placeholder="年龄">
-		                </div>
-		                <div class="form-group">
 		                  <label for="exampleInputEmail1">工资</label>
-		                  <input type="date" class="form-control" name="salary" placeholder="工资">
+		                  <input type="text" class="form-control" name="salary" placeholder="工资">
 		                </div>
 		                <div class="form-group">
 		                  <label for="exampleInputEmail1">出生日期</label>
-		                  <input type="date" class="form-control" name="joinDate" placeholder="出生日期">
+		                  <input type="date" class="form-control" name="birthday" placeholder="出生日期">
 		                </div>
 		                <div class="form-group">
 		                  <label for="exampleInputEmail1">入职日期</label>
 		                  <input type="date" class="form-control" name="joinDate" placeholder="入职日期">
 		                </div>
 		                <div class="form-group">
-		                  <label for="exampleInputEmail1">照片修改选择</label>
-		                  <input type="radio"  name="photoOption" value="CHANGE" checked />更改
+		                  <label for="exampleInputEmail1">手机</label>
+		                  <input type="text" class="form-control" name="mobile" placeholder="手机">
+		                </div>
+		                <div class="form-group">
+		                  <label for="exampleInputEmail1">邮箱</label>
+		                  <input type="text" class="form-control" name="mail" placeholder="邮箱">
+		                </div>
+		                 <div class="form-group">
+		                  <label for="exampleInputEmail1">图片选项</label>
+		                  <input type="radio"  name="photoOption" value="UPDATE" checked />更改
 		                  <input type="radio"  name="photoOption" value="KEEP" />保留
 		                  <input type="radio"  name="photoOption" value="DELETE" />删除
 		                </div>
