@@ -3,8 +3,10 @@ package com.neusoft.oa.hr.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.neusoft.oa.hr.mapper.IRoleMapper;
 import com.neusoft.oa.hr.model.RoleModel;
@@ -19,6 +21,11 @@ import com.neusoft.oa.hr.service.IRoleService;
 public class RoleServiceImpl implements IRoleService {
 	@Autowired
 	private IRoleMapper roleMapper=null;
+	@Autowired
+	private RestTemplate rest=null;
+	@Value("${neusoftoaservice.url}")
+	private String url=null;
+	
 
 	@Override
 	public void add(RoleModel role) throws Exception {
@@ -46,8 +53,12 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public List<RoleModel> getListByAll() throws Exception {
+		System.out.println(url);
+		List<RoleModel> list=rest.getForObject(url+"role/list/all", List.class);
 		
-		return roleMapper.selectListByAll();
+		
+		return list;
+		
 	}
 
 	@Override

@@ -14,7 +14,7 @@ $(function(){
 	//取得部门的列表，分页模式
 	function getListInfo(){
 		//调用后台取得部门列表REST API
-		$.getJSON("department/list/all/page",{page:page,rows:rows},function(data){
+		$.getJSON("http://10.1.53.67:8080/department/list/all/page",{page:page,rows:rows},function(data){
 				//显示个数和页数
 				$("span#count").html(data.count);
 				$("span#pagecount").html(data.page+"/"+data.pageCount);

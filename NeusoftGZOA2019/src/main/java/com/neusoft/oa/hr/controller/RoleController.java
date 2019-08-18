@@ -46,7 +46,10 @@ public class RoleController {
 		return new ResultMessage<RoleModel>("OK","删除角色成功");
 	}
 	//取得指定的角色
-	
+	@GetMapping(value="/get")
+	public RoleModel getByNo(int no) throws Exception{
+		return roleService.getByNo(no);
+	}
 	//取得所有角色列表，有分页
 	@GetMapping(value="/list/all/page")
 	public ResultMessage<RoleModel> getListByAllWitPage(@RequestParam(required = false,defaultValue ="10") int rows,@RequestParam(required = false,defaultValue = "1") int page) throws Exception{

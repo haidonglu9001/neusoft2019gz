@@ -21,5 +21,6 @@ logging:
   level:
     com.neusoft.oa.hr.mapper: debug
     
-
+neusoftoaservice:
+  url: http://localhost:8100/
 
