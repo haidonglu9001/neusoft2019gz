@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import com.neusoft.oa.hr.mapper.IRoleMapper;
 import com.neusoft.oa.hr.model.RoleModel;
 import com.neusoft.oa.hr.service.IRoleService;
+import com.neusoft.oa.message.ResultMessage;
 /*
  * 模块：HR 人力资源
  * 角色业务层接口的实现类
@@ -29,8 +30,8 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public void add(RoleModel role) throws Exception {
-		roleMapper.insert(role);
-
+		ResultMessage<RoleModel> result=rest.postForObject(url+"role/add", role, ResultMessage.class);
+		System.out.println("微服务里："+result.getMessage());
 	}
 
 	@Override
@@ -53,8 +54,8 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public List<RoleModel> getListByAll() throws Exception {
-		System.out.println(url);
-		List<RoleModel> list=rest.getForObject(url+"role/list/all", List.class);
+		
+		List<RoleModel> list=rest.getForObject("http://localhost:8100/"+"role/list/all", List.class);
 		
 		
 		return list;
