@@ -3,6 +3,7 @@ package com.neusoft.oa.hrservice.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ import com.neusoft.oa.hrservice.service.IRoleService;
 public class RoleServiceImpl implements IRoleService {
 	@Autowired
 	private IRoleMapper roleMapper=null;
+	@Value("${server.port}")
+	private int port=0;
 
 	@Override
 	public void add(RoleModel role) throws Exception {
@@ -44,7 +47,7 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public List<RoleModel> getListByAll() throws Exception {
-		
+		System.out.println("服务端口:"+port);
 		return roleMapper.selectListByAll();
 	}
 
