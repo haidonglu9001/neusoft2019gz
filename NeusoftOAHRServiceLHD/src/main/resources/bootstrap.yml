@@ -7,5 +7,10 @@ spring:  application:    name: neusofthrservicelhd
       uri:
       - http://localhost:9999
 
-    
-  
+
+eureka:
+  instance:
+    prefer-ip-address: true   #以IP注册为主， 不以主机名注册微服务
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/    
