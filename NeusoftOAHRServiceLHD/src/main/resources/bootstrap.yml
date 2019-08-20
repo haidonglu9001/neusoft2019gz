@@ -14,3 +14,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8888/eureka/    
+
+logging:
+  level:
+    com.neusoft.oa.hrservice.mapper: debug

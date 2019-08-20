@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class RoleController {
 	@Autowired
 	private IRoleService roleService=null;
 	@PostMapping(value="/add")
-	public ResultMessage<RoleModel> add(RoleModel rm) throws Exception {
+	public ResultMessage<RoleModel> add(@RequestBody RoleModel rm) throws Exception {
 		ResultMessage<RoleModel> result=new ResultMessage<RoleModel>("OK","增加角色成功");
 		roleService.add(rm);
 		return result;

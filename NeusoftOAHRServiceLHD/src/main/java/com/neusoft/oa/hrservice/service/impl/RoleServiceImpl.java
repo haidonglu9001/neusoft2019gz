@@ -23,6 +23,7 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public void add(RoleModel role) throws Exception {
+		//Thread.sleep(120000);
 		roleMapper.insert(role);
 		
 	}
@@ -48,6 +49,7 @@ public class RoleServiceImpl implements IRoleService {
 	@Override
 	public List<RoleModel> getListByAll() throws Exception {
 		System.out.println("服务端口:"+port);
+		//Thread.sleep(120000);
 		return roleMapper.selectListByAll();
 	}
 
