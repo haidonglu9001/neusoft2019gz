@@ -34,7 +34,7 @@ public class RoleController {
 	}
 	
 	
-	@GetMapping(value="/list/all")
+	@RequestMapping(value="/list/all")
 	public List<RoleModel> getListByAll() throws Exception {
 		
 		return roleService.getListByAll();
