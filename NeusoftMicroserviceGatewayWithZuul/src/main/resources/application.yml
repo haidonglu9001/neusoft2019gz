@@ -1,0 +1,17 @@
+
+server:
+  port: 8700
+
+spring:
+  application:
+    name: neusoftgatewayzuul
+    
+
+eureka:
+  instance:
+    prefer-ip-address: true   #以IP注册为主， 不以主机名注册微服务
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka/  
+    register-with-eureka: false
+    
