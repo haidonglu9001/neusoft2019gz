@@ -1,0 +1,40 @@
+
+server:
+  port: 9500
+
+zuul:
+  #需要忽略的头部信息，不在传播到其他服务
+  sensitive-headers: Access-Control-Allow-Origin
+  ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
+   
+  host:  #等待
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+    max-total-connections: 5000
+  ribbon:
+    eager-load:
+      enabled: true
+eureka:
+  client:
+    registerWithEureka: false
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka/
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3318/cityoa?serverTimezone=GMT%2B8
+    username: cityoa
+    password: cityoa
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+      
+mybatis:
+  mapper-locations:
+  - classpath*:/mappers/*.xml
+  type-aliases-package: com.neusoft.security.model
+ 
+logging:
+  level:
+    com.neusoft.security.mapper: debug
